@@ -23,7 +23,7 @@ styleUrls: ['./app.component.css']})
 @Injectable()
 export class AppComponent {
   public url: 'http://localhost:3000/exercises'
-  public apps: Exercise[];
+  public apps: Object[];
   // public dataSource: Exercise[];
   public displayedColumns: String[] = ['Exercise', 'Description', 'Set', 'RepsTime'];
 
@@ -36,12 +36,11 @@ export class AppComponent {
         console.log(data);
         var exercises:Exercise[] = new Array()
 
-        for (let index = 0; index < data.length; index++) {
-          exercises[index] = data[index] as Exercise;
-        }
+        // for (let index = 0; index < data.length; index++) {
+        //   exercises[index] = data[index] as Exercise;
+        // }
 
-        var tetst = data[1] as Exercise
-        this.apps = data as Exercise[]
+        this.apps = data
       });
   }
 
@@ -99,3 +98,8 @@ interface Exercise {
     displayedColumns: string[] = ['Exercise', 'Description', 'Set', 'RepsTime'];
     // dataSource = ELEMENT_DATA;
   }
+
+
+
+
+  
