@@ -1,19 +1,13 @@
-// import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
-// @Component({
-//   selector: 'app-root',
-//   templateUrl: './app.component.html',
-//   styleUrls: ['./app.component.css']
-// })
-// export class AppComponent {
-//   title = 'ITWEB-M2-Client';
-// }
-
-import { Component, Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { MatTableDataSource, MatSort } from '@angular/material'
-import { Observable } from 'rxjs';
-import { Config } from 'protractor';
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json'
+    // 'Authorization': 'my-auth-token'
+  })
+};
 
 @Component({
 selector: 'app-root',
@@ -24,13 +18,9 @@ styleUrls: ['./app.component.css']})
 export class AppComponent {
   public url: string
   public programs: Program[];
-  public app1: Exercise;
-  // public dataSource: Exercise[];
   public displayedColumns: String[] = ['Exercise', 'Description', 'Set', 'RepsTime'];
 
   constructor(private http: HttpClient) {
-      // this.http.get<Applications[]>(this.url)
-      // this.showConfigResponse();
       
       this.url = 'http://localhost:3000/programs';
       this.http.get<Program[]>(this.url).subscribe(data => {
@@ -39,67 +29,82 @@ export class AppComponent {
       });
   }
 
-  // showConfigResponse() {
-  //   this.getConfigResponse()
-  //     // resp is of type `HttpResponse<Config>`
-  //     .subscribe(resp => {
-  //       // access the body directly, which is typed as `Config`.
-  //       this.apps = { ... resp.body };
-  //     });
-  // }
-  // getConfigResponse(): Observable<HttpResponse<Exercise[]>> {
-  //   return this.http.get<Exercise[]>(this.url, { observe: 'response' });
-  // }
+  removeProgram($event, programId)
+  {
+    console.log("Trying to remove program: ",programId);
+  }
 
-  // getConfig() {
-  //   // now returns an Observable of Config
-  //   return this.http.get<Applications[]>(this.url)
-  // }
+  createProgram(){
+    var obj = {Owner: this.newGuid(), Exercises: []}
 
+    this.http.post<Program>(this.url + '/',obj, httpOptions).subscribe(data => {
+      console.log(data);
+      this.programs.push(data)
+    });
+    
+  }
+
+  addExercise($event, programId){
+    let exercise: Exercise 
+    exercise = {id: "", Exercise: "Test", Description: "Description", Set: "Set", RepsTime: "10"}
+    
+    var obj = {programId, exercise}
+
+    this.http.post<Program>(this.url + '/AddExercise',obj, httpOptions).subscribe(data => {
+      console.log(data);
+      for (let i = 0; i < this.programs.length; i++) {
+        var program = this.programs[i];
+        if(program._id == programId){
+          this.programs[i] = data
+        }
+      }
+    });
+  }
+
+  removeExercise($event, programId, exerciseId)
+  {
+    console.log("Trying to remove exercise with programId: ", programId, " And ExerciseID: ", exerciseId);
+    var obj = {programId, exerciseId}
+    this.http.post(this.url + '/RemoveExercise',obj, httpOptions).subscribe(data => {
+      console.log(data);
+    });
+
+    this.removeExerciseFromModel(programId, exerciseId)
+  }
+
+  removeExerciseFromModel(programId, exerciseId){
+    for (let i = 0; i < this.programs.length; i++) {
+      var program = this.programs[i];
+      if(program._id == programId){
+        for (let j = 0; j < program.Exercises.length; j++) {
+          
+          if(program.Exercises[j].id == exerciseId){
+            this.programs[i].Exercises.splice(j,1)
+          }
+        }
+      }
+    }
+  }
+  
+  newGuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0, v = c === 'x' ? r : ( r & 0x3 | 0x8 );
+        return v.toString(16);
+    });
+  }
 }
 
+
+
 interface Program {
+  _id: string
   owner: string,
-  exercises: Exercise[]
+  Exercises: Exercise[]
 }
 
 interface Exercise {
-  _id: string;
+  id: string;
   Exercise: string;
   Description: string;
   Set: string;
-  RepsTime: string;}
-
-
-  // export class Exercises {
-  // exercise: Exercise[];
-  // constructor(obj: any) {
-  //   this.exercise = obj.category as Exercise[];
-  // }
-// }
-  
-  // const ELEMENT_DATA: PeriodicElement[] = [
-  //   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  //   {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  //   {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  //   {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  //   {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  //   {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  //   {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  //   {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  //   {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  //   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  // ];
-  
-  /**
-   * @title Basic use of `<table mat-table>`
-   */
-  export class TableBasicExample {
-    displayedColumns: string[] = ['Exercise', 'Description', 'Set', 'RepsTime'];
-    // dataSource = ELEMENT_DATA;
-  }
-
-
-
-
-  
+  RepsTime: string;} 
