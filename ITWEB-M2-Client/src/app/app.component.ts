@@ -22,8 +22,8 @@ styleUrls: ['./app.component.css']})
 
 @Injectable()
 export class AppComponent {
-  public url: 'http://localhost:3000/exercises'
-  public apps: Exercise[];
+  public url: string
+  public programs: Program[];
   public app1: Exercise;
   // public dataSource: Exercise[];
   public displayedColumns: String[] = ['Exercise', 'Description', 'Set', 'RepsTime'];
@@ -32,12 +32,10 @@ export class AppComponent {
       // this.http.get<Applications[]>(this.url)
       // this.showConfigResponse();
       
-      this.url = 'http://localhost:3000/exercises';
-      this.http.get<Exercise[]>(this.url).subscribe(data => {
+      this.url = 'http://localhost:3000/programs';
+      this.http.get<Program[]>(this.url).subscribe(data => {
         console.log(data);
-        var exercises:Exercise[] = new Array()
-
-        this.apps = data
+        this.programs = data
       });
   }
 
@@ -58,6 +56,11 @@ export class AppComponent {
   //   return this.http.get<Applications[]>(this.url)
   // }
 
+}
+
+interface Program {
+  owner: string,
+  exercises: Exercise[]
 }
 
 interface Exercise {

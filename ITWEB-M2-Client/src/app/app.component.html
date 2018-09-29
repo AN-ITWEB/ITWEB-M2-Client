@@ -11,37 +11,22 @@
       border: 1px solid black;
   }
   </style>
-<!-- <ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul> -->
-
-<!-- <ul *ngIf="apps">
-  <li *ngFor="let app of apps">
-     {{app.Exercise}}
-     {{app.Description}}
-  </li>
-</ul> -->
-<table>
-  <thead>
-      <th>Exercise</th>
-      <th>Description</th>
-      <th>Set</th>
-      <th>RepsTime</th>
-  </thead>
-  <tbody>
-      <tr *ngFor="let app of apps">
-          <td>{{app.Exercise}}</td>
-          <td>{{app.Description}}</td>
-          <td>{{app.Set}}</td>
-          <td>{{app.RepsTime}}</td>
-      </tr>
-  </tbody>
-</table>
+<div *ngFor="let program of programs">
+<p>Owner {{program.Owner}}</p>
+  <table>
+    <thead>
+        <th>Exercise</th>
+        <th>Description</th>
+        <th>Set</th>
+        <th>RepsTime</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let exercise of program.Exercises">
+            <td>{{exercise.Exercise}}</td>
+            <td>{{exercise.Description}}</td>
+            <td>{{exercise.Set}}</td>
+            <td>{{exercise.RepsTime}}</td>
+        </tr>
+    </tbody>
+  </table>
+</div>
