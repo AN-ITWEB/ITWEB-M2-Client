@@ -1,6 +1,7 @@
 import { Component, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
+import './_content/modal.less';
 
 const httpOptions = {
   headers: new HttpHeaders({

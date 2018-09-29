@@ -1,4 +1,13 @@
-<h2 style="text-align: center">Welcome to our exercise program site</h2>
+<!-- main app container -->
+<div>
+    <nav>
+        <a [routerLink]="['/home']">Home</a>
+    </nav>
+    <router-outlet></router-outlet>
+</div>
+
+
+<!-- <h2 style="text-align: center">Welcome to our exercise program site</h2>
 <div *ngFor="let program of programs">
 <button (click)="removeProgram($event, program._id)">Remove Program! Not implemented</button>
 <p>Owner {{program.Owner}}</p>
@@ -23,4 +32,4 @@
   <button (click)="addExercise($event, program._id)">Add Exercise</button>
 </div>
 <h3>Create new program</h3>
-<button (click)="createProgram()">Create Program</button>
+<button (click)="createProgram()">Create Program</button> -->

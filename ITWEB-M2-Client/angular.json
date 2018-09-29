@@ -23,6 +23,8 @@
               "src/assets"
             ],
             "styles": [
+              "src/app/_content/app.less",
+              "src/app/_content/modal.less",
               {
                 "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
               },
