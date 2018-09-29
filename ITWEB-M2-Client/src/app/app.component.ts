@@ -23,7 +23,8 @@ styleUrls: ['./app.component.css']})
 @Injectable()
 export class AppComponent {
   public url: 'http://localhost:3000/exercises'
-  public apps: Object[];
+  public apps: Exercise[];
+  public app1: Exercise;
   // public dataSource: Exercise[];
   public displayedColumns: String[] = ['Exercise', 'Description', 'Set', 'RepsTime'];
 
@@ -35,10 +36,6 @@ export class AppComponent {
       this.http.get<Exercise[]>(this.url).subscribe(data => {
         console.log(data);
         var exercises:Exercise[] = new Array()
-
-        // for (let index = 0; index < data.length; index++) {
-        //   exercises[index] = data[index] as Exercise;
-        // }
 
         this.apps = data
       });
