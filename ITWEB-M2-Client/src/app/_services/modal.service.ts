@@ -1,4 +1,6 @@
-﻿export class ModalService {
+﻿//http://jasonwatmore.com/post/2018/05/25/angular-6-custom-modal-window-dialog-box
+
+export class ModalService {
     private modals: any[] = [];
 
     add(modal: any) {

@@ -1,4 +1,6 @@
-﻿import { Component, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
+﻿//http://jasonwatmore.com/post/2018/05/25/angular-6-custom-modal-window-dialog-box
+
+import { Component, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
 
 import { ModalService } from '../_services';
 

@@ -1,9 +1,37 @@
-<p>
-  home works!
-</p>
-<button (click)="openModal('custom-modal-1');">open</button>
+<h2 style="text-align: center">Welcome to our exercise program site</h2>
+<div *ngFor="let program of programs">
+<button (click)="removeProgram($event, program._id)">Remove Program! Not implemented</button>
+<p>Owner {{program.Owner}}</p>
+  <table>
+    <thead>
+        <th>Exercise</th>
+        <th>Description</th>
+        <th>Set</th>
+        <th>RepsTime</th>
+        <th>Action</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let exercise of program.Exercises">
+            <td>{{exercise.Exercise}}</td>
+            <td>{{exercise.Description}}</td>
+            <td>{{exercise.Set}}</td>
+            <td>{{exercise.RepsTime}}</td>
+            <td><button (click)="removeExercise($event, program._id, exercise.id)">Remove Exercise</button></td>
+        </tr>
+    </tbody>
+  </table>
+  <button (click)="openModal({id: 'custom-modal-1', programId: program._id});">Create Exercise</button>
+</div>
+<h3>Create new program</h3>
+<button (click)="createProgram()">Create Program</button>
+
+
 <jw-modal id="custom-modal-1">
-  <h1>A Custom Modal!</h1>
-  <p>Home page text: <input type="text" [(ngModel)]="bodyText" /></p>
-  <button (click)="closeModal('custom-modal-1');">Close</button>
+  <h1>Add new exercise</h1>
+  <p>Exercise name: <input type="text" [(ngModel)]="modalExerciseText" /></p>
+  <p>Description: <input type="text" [(ngModel)]="modalDescriptionText" /></p>
+  <p>Set: <input type="text" [(ngModel)]="modalSetText" /></p>
+  <p>Reps/Time: <input type="text" [(ngModel)]="modalRepsTimeText" /></p>
+  <button (click)="closeModal('custom-modal-1');">Cancle</button>
+  <button (click)="addExerciseModal('custom-modal-1');">Add exercise</button>
 </jw-modal>
