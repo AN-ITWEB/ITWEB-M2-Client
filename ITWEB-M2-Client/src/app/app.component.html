@@ -5,31 +5,3 @@
     </nav>
     <router-outlet></router-outlet>
 </div>
-
-
-<!-- <h2 style="text-align: center">Welcome to our exercise program site</h2>
-<div *ngFor="let program of programs">
-<button (click)="removeProgram($event, program._id)">Remove Program! Not implemented</button>
-<p>Owner {{program.Owner}}</p>
-  <table>
-    <thead>
-        <th>Exercise</th>
-        <th>Description</th>
-        <th>Set</th>
-        <th>RepsTime</th>
-        <th>Action</th>
-    </thead>
-    <tbody>
-        <tr *ngFor="let exercise of program.Exercises">
-            <td>{{exercise.Exercise}}</td>
-            <td>{{exercise.Description}}</td>
-            <td>{{exercise.Set}}</td>
-            <td>{{exercise.RepsTime}}</td>
-            <td><button (click)="removeExercise($event, program._id, exercise.id)">Remove Exercise</button></td>
-        </tr>
-    </tbody>
-  </table>
-  <button (click)="addExercise($event, program._id)">Add Exercise</button>
-</div>
-<h3>Create new program</h3>
-<button (click)="createProgram()">Create Program</button> -->
