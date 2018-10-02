@@ -5,7 +5,7 @@ import { FormsModule }    from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTableModule } from '@angular/material';
+import { MatTableModule, MatSlideToggle, MatSlideToggleModule } from '@angular/material';
 import { HomeComponent } from './home/home.component';
 import { ModalComponent } from './_directives';
 import { ModalService } from './_services';
@@ -16,7 +16,7 @@ import { routing }        from './app.routing';
   declarations: [
     AppComponent,
     HomeComponent,
-    ModalComponent
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,7 +24,8 @@ import { routing }        from './app.routing';
     MatTableModule,
     BrowserAnimationsModule,
     FormsModule,
-    routing
+    routing,
+    MatSlideToggleModule
   ],
   providers: [ModalService],
   bootstrap: [AppComponent]

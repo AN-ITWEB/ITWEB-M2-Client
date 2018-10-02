@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
 
   addExerciseModal(id: string) {
     let exercise: Exercise 
-    exercise = {id: "", Exercise: this.modalExerciseText, Description: this.modalDescriptionText, Set: this.modalSetText, RepsTime: this.modalRepsTimeText}
+    exercise = {id: "", Exercise: this.modalExerciseText, Description: this.modalDescriptionText, Set: this.modalSetText, RepsTime: this.modalRepsTimeText, Logged: false}
     var obj = {programId: this.currentProgramId, exercise}
 
     this.http.post<Program>(this.url + '/AddExercise',obj, httpOptions).subscribe(data => {
@@ -65,6 +65,15 @@ export class HomeComponent implements OnInit {
       this.resetModalTexts();
   }
 
+  toggleClicked(programId, exerciseId, i, j){
+    var Logged = !this.programs[i].Exercises[j].Logged
+    var obj = {Logged, programId, exerciseId}
+
+    this.http.patch(this.url + '/UpdateLogged',obj, httpOptions).subscribe(data => {
+      console.log("Patched Logged info", data);
+    });
+  }
+
   private resetModalTexts(){
     this.modalExerciseText = "";
     this.modalDescriptionText = "";
@@ -75,6 +84,11 @@ export class HomeComponent implements OnInit {
   removeProgram($event, programId)
   {
     console.log("Trying to remove program: ",programId);
+    
+    this.http.delete(this.url + '/' + programId, httpOptions).subscribe(data => {
+      console.log("Removed program: ",data);
+      this.programs = this.programs.filter(program => program._id !== programId)
+    });
   }
 
   createProgram(){
@@ -83,24 +97,6 @@ export class HomeComponent implements OnInit {
     this.http.post<Program>(this.url + '/',obj, httpOptions).subscribe(data => {
       console.log(data);
       this.programs.push(data)
-    });
-    
-  }
-
-  addExercise($event, programId){
-    let exercise: Exercise 
-    exercise = {id: "", Exercise: "Test", Description: "Description", Set: "Set", RepsTime: "10"}
-    
-    var obj = {programId, exercise}
-
-    this.http.post<Program>(this.url + '/AddExercise',obj, httpOptions).subscribe(data => {
-      console.log(data);
-      for (let i = 0; i < this.programs.length; i++) {
-        var program = this.programs[i];
-        if(program._id == programId){
-          this.programs[i] = data
-        }
-      }
     });
   }
 
@@ -153,4 +149,6 @@ interface Exercise {
   Exercise: string;
   Description: string;
   Set: string;
-  RepsTime: string;} 
+  RepsTime: string;
+  Logged: boolean
+} 
