@@ -36,11 +36,18 @@
         </tr>
     </tbody>
   </table>
-  <div style="text-align: center"><button (click)="openModal({id: 'custom-modal-1', programId: program._id});">Create Exercise</button> <button (click)="removeProgram($event, program._id)">Remove Program!</button></div>
+
+  <div *ngIf="program.Owner.token==token">
+    <button (click)="openModal({id: 'custom-modal-1', programId: program._id});">Create Exercise</button>
+    <button (click)="removeProgram($event, program._id)">Remove Program!</button>
+  </div>
   
 </div>
-<h3>Create new program</h3>
-<button (click)="createProgram()">Create Program</button>
+<div  *ngIf="token != ''">
+  <h3>Create new program</h3>
+  <button (click)="createProgram()">Create Program</button>
+</div>
+
 
 <jw-modal id="custom-modal-1">
   <h1>Add new exercise</h1>

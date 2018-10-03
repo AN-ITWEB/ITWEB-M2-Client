@@ -18,9 +18,10 @@ export class HomeComponent implements OnInit {
   private modalDescriptionText: string;
   private modalSetText: string;
   private modalRepsTimeText: string;
-  private token: string;
+  private token: string = ""
   public url: string
   public programs: Program[];
+  public myVar: string;
   public displayedColumns: String[] = ['Exercise', 'Description', 'Set', 'RepsTime'];
   private currentProgramId: string;
   private owner: Owner;
@@ -34,6 +35,7 @@ export class HomeComponent implements OnInit {
         console.log(data);
         this.programs = data
       });
+      this.myVar = 'test'
   }
 
   openModal(obj: modalObj) {
@@ -105,6 +107,7 @@ export class HomeComponent implements OnInit {
           Name: userData.name,
           token: userData.id
         };
+        this.token = userData.id
       }
     );
   }
