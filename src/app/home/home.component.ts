@@ -8,14 +8,6 @@ import {
   GoogleLoginProvider
 } from 'angular5-social-login';
 
-
-const httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json'
-      // 'Authorization': 'my-auth-token'
-    })
-  };
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -26,6 +18,7 @@ export class HomeComponent implements OnInit {
   private modalDescriptionText: string;
   private modalSetText: string;
   private modalRepsTimeText: string;
+  private token: string;
   public url: string
   public programs: Program[];
   public displayedColumns: String[] = ['Exercise', 'Description', 'Set', 'RepsTime'];
@@ -47,6 +40,9 @@ export class HomeComponent implements OnInit {
       this.currentProgramId = obj.programId;
       this.modalService.open(obj.id);
   }
+  openModalBasic(id: string) {
+    this.modalService.open(id);
+  }
 
   closeModal(id: string) {
       this.modalService.close(id);
@@ -58,15 +54,20 @@ export class HomeComponent implements OnInit {
     exercise = {id: "", Exercise: this.modalExerciseText, Description: this.modalDescriptionText, Set: this.modalSetText, RepsTime: this.modalRepsTimeText, Logged: false}
     var obj = {programId: this.currentProgramId, exercise}
 
-    this.http.post<Program>(this.url + '/AddExercise',obj, httpOptions).subscribe(data => {
-      console.log(data);
-      for (let i = 0; i < this.programs.length; i++) {
-        var program = this.programs[i];
-        if(program._id == this.currentProgramId){
-          this.programs[i] = data
+    this.http.post<Program>(this.url + '/AddExercise',obj, this.generateHttpHeaders()).subscribe(
+      data => {
+        for (let i = 0; i < this.programs.length; i++) {
+          var program = this.programs[i];
+          if(program._id == this.currentProgramId){
+            this.programs[i] = data
+          }
         }
+        console.log(data)},
+      error => {
+        console.log('Error: ', error)
+        this.openModalBasic('no-access-modal') 
       }
-    });  
+    );  
 
       this.modalService.close(id);
       this.resetModalTexts();
@@ -76,9 +77,16 @@ export class HomeComponent implements OnInit {
     var Logged = !this.programs[i].Exercises[j].Logged
     var obj = {Logged, programId, exerciseId}
 
-    this.http.patch(this.url + '/UpdateLogged',obj, httpOptions).subscribe(data => {
-      console.log("Patched Logged info", data);
-    });
+    this.http.patch(this.url + '/UpdateLogged', obj, this.generateHttpHeaders()).subscribe(
+      data => {
+        console.log("Patched Logged info", data)
+      },
+      error => { 
+        console.log('Error: ', error)
+        this.openModalBasic('no-access-modal')
+        this.programs[i].Exercises[j].Logged = !this.programs[i].Exercises[j].Logged
+      }
+    );
   }
 
   public socialSignIn(socialPlatform : string) {
@@ -95,10 +103,19 @@ export class HomeComponent implements OnInit {
         this.owner = {
           id: userData.id,
           Name: userData.name,
-          token: userData.token
+          token: userData.id
         };
       }
     );
+  }
+
+  private generateHttpHeaders(){
+    return {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+       'Authorization': this.owner.token
+      })
+    };
   }
 
   private resetModalTexts(){
@@ -112,30 +129,47 @@ export class HomeComponent implements OnInit {
   {
     console.log("Trying to remove program: ",programId);
     
-    this.http.delete(this.url + '/' + programId, httpOptions).subscribe(data => {
+    this.http.delete(this.url + '/' + programId, this.generateHttpHeaders()).subscribe(
+      data => {
       console.log("Removed program: ",data);
       this.programs = this.programs.filter(program => program._id !== programId)
-    });
+      },
+      error => {
+        console.log('Error: ', error)
+        this.openModalBasic('no-access-modal') 
+      }
+    );
   }
 
   createProgram(){
+    if(!this.checkIfLoggedIn()) return;
+
     var obj = {Owner: this.owner, Exercises: []}
 
-    this.http.post<Program>(this.url + '/',obj, httpOptions).subscribe(data => {
-      console.log(data);
-      this.programs.push(data)
-    });
+    this.http.post<Program>(this.url + '/',obj, this.generateHttpHeaders()).subscribe(
+      data => {
+        console.log(data);
+        this.programs.push(data)},
+      error => {
+        console.log('Error: ', error)
+        this.openModalBasic('no-access-modal') 
+      }  
+    );
   }
 
   removeExercise($event, programId, exerciseId)
   {
     console.log("Trying to remove exercise with programId: ", programId, " And ExerciseID: ", exerciseId);
     var obj = {programId, exerciseId}
-    this.http.post(this.url + '/RemoveExercise',obj, httpOptions).subscribe(data => {
-      console.log(data);
-    });
-
-    this.removeExerciseFromModel(programId, exerciseId)
+    this.http.post(this.url + '/RemoveExercise',obj, this.generateHttpHeaders()).subscribe(
+      data => {
+        console.log(data)
+        this.removeExerciseFromModel(programId, exerciseId)
+      },
+      error => {
+          console.log('Error: ', error)
+          this.openModalBasic('no-access-modal') 
+      });
   }
 
   removeExerciseFromModel(programId, exerciseId){
@@ -151,14 +185,17 @@ export class HomeComponent implements OnInit {
       }
     }
   }
-  
-  newGuid() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        const r = Math.random() * 16 | 0, v = c === 'x' ? r : ( r & 0x3 | 0x8 );
-        return v.toString(16);
-    });
+
+  checkIfLoggedIn(){
+    if(this.owner == null){
+      this.openModalBasic("not-logged-in-modal")
+      return false
+    }
+    return true  
   }
 }
+
+
 
 interface modalObj{
     id: string,
