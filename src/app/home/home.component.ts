@@ -2,6 +2,12 @@ import { Component, OnInit, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { ModalService } from '../_services';
+import {
+  AuthService,
+  FacebookLoginProvider,
+  GoogleLoginProvider
+} from 'angular5-social-login';
+
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -24,8 +30,9 @@ export class HomeComponent implements OnInit {
   public programs: Program[];
   public displayedColumns: String[] = ['Exercise', 'Description', 'Set', 'RepsTime'];
   private currentProgramId: string;
+  private owner: Owner;
 
-  constructor(private modalService: ModalService, private http: HttpClient) {
+  constructor(private modalService: ModalService, private http: HttpClient, private socialAuthService: AuthService) {
   }
 
   ngOnInit() {
@@ -74,6 +81,26 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  public socialSignIn(socialPlatform : string) {
+    let socialPlatformProvider;
+    if(socialPlatform == "facebook"){
+      socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
+    }else if(socialPlatform == "google"){
+      socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+    }
+    
+    this.socialAuthService.signIn(socialPlatformProvider).then(
+      (userData) => {
+        console.log(socialPlatform+" sign in data : " , userData);
+        this.owner = {
+          id: userData.id,
+          Name: userData.name,
+          token: userData.token
+        };
+      }
+    );
+  }
+
   private resetModalTexts(){
     this.modalExerciseText = "";
     this.modalDescriptionText = "";
@@ -92,7 +119,7 @@ export class HomeComponent implements OnInit {
   }
 
   createProgram(){
-    var obj = {Owner: this.newGuid(), Exercises: []}
+    var obj = {Owner: this.owner, Exercises: []}
 
     this.http.post<Program>(this.url + '/',obj, httpOptions).subscribe(data => {
       console.log(data);
@@ -140,7 +167,7 @@ interface modalObj{
 
 interface Program {
   _id: string
-  owner: string,
+  owner: Owner,
   Exercises: Exercise[]
 }
 
@@ -152,3 +179,9 @@ interface Exercise {
   RepsTime: string;
   Logged: boolean
 } 
+
+interface Owner {
+  id: string,
+  Name: string,
+  token: string
+}

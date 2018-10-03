@@ -1,6 +1,14 @@
+<div style="text-align: right">
+  <button class="loginBtn loginBtn--facebook" (click)="socialSignIn('facebook')">
+    Login with Facebook
+  </button>
+  <button class="loginBtn loginBtn--google" (click)="socialSignIn('google')">
+    Login with Google
+  </button>
+</div>
 <h1 style="text-align: center">Welcome to our exercise program site</h1>
 <div *ngFor="let program of programs; let i = index">
-<h3>Owner {{program.Owner}}</h3>
+<h3>Owner {{program.Owner.Name}}</h3>
   <table>
     <thead>
         <th>Exercise</th>
