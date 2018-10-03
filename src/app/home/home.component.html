@@ -1,0 +1,45 @@
+<h1 style="text-align: center">Welcome to our exercise program site</h1>
+<div *ngFor="let program of programs; let i = index">
+<h3>Owner {{program.Owner}}</h3>
+  <table>
+    <thead>
+        <th>Exercise</th>
+        <th>Description</th>
+        <th>Set</th>
+        <th>RepsTime</th>
+        <th>Completed</th>
+        <th>Action</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let exercise of program.Exercises; let j = index">
+            <td>{{exercise.Exercise}}</td>
+            <td>{{exercise.Description}}</td>
+            <td>{{exercise.Set}}</td>
+            <td>{{exercise.RepsTime}}</td>
+            <td> 
+              <mat-slide-toggle color="primary" [(ngModel)]="programs[i].Exercises[j].Logged" (click)="toggleClicked(program._id, exercise.id, i, j)">
+              </mat-slide-toggle>
+            </td>
+            <td style="text-align: center;">
+              <a  (click)="removeExercise($event, program._id, exercise.id)"> 
+                <img src="https://cdn4.iconfinder.com/data/icons/web-ui-color/128/Close-512.png" style="width:25px;height:25px;"/>
+              </a>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+  <div style="text-align: center"><button (click)="openModal({id: 'custom-modal-1', programId: program._id});">Create Exercise</button> <button (click)="removeProgram($event, program._id)">Remove Program!</button></div>
+  
+</div>
+<h3>Create new program</h3>
+<button (click)="createProgram()">Create Program</button>
+
+<jw-modal id="custom-modal-1">
+  <h1>Add new exercise</h1>
+  <p>Exercise name: <input type="text" [(ngModel)]="modalExerciseText" /></p>
+  <p>Description: <input type="text" [(ngModel)]="modalDescriptionText" /></p>
+  <p>Set: <input type="text" [(ngModel)]="modalSetText" /></p>
+  <p>Reps/Time: <input type="text" [(ngModel)]="modalRepsTimeText" /></p>
+  <button (click)="closeModal('custom-modal-1');">Cancle</button>
+  <button (click)="addExerciseModal('custom-modal-1');">Add exercise</button>
+</jw-modal>
