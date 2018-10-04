@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   private modalDescriptionText: string;
   private modalSetText: string;
   private modalRepsTimeText: string;
-  private token: string = ""
+  private id: string = ""
   public url: string
   public programs: Program[];
   public myVar: string;
@@ -105,9 +105,9 @@ export class HomeComponent implements OnInit {
         this.owner = {
           id: userData.id,
           Name: userData.name,
-          token: userData.id
+          token: userData.idToken
         };
-        this.token = userData.id
+        this.id = userData.id
       }
     );
   }

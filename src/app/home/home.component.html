@@ -37,13 +37,13 @@
     </tbody>
   </table>
 
-  <div *ngIf="program.Owner.token==token">
+  <div *ngIf="program.Owner.id==id">
     <button (click)="openModal({id: 'custom-modal-1', programId: program._id});">Create Exercise</button>
     <button (click)="removeProgram($event, program._id)">Remove Program!</button>
   </div>
   
 </div>
-<div  *ngIf="token != ''">
+<div  *ngIf="id != ''">
   <h3>Create new program</h3>
   <button (click)="createProgram()">Create Program</button>
 </div>
