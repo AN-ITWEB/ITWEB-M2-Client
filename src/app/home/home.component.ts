@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   private modalSetText: string;
   private modalRepsTimeText: string;
   private id: string = ""
+  private name: string = ""
   public url: string
   public programs: Program[];
   public myVar: string;
@@ -85,8 +86,8 @@ export class HomeComponent implements OnInit {
       },
       error => { 
         console.log('Error: ', error)
-        this.openModalBasic('no-access-modal')
-        this.programs[i].Exercises[j].Logged = !this.programs[i].Exercises[j].Logged
+        // this.openModalBasic('no-access-modal')
+        // this.programs[i].Exercises[j].Logged = !this.programs[i].Exercises[j].Logged
       }
     );
   }
@@ -108,6 +109,7 @@ export class HomeComponent implements OnInit {
           token: userData.idToken
         };
         this.id = userData.id
+        this.name = userData.name
       }
     );
   }
