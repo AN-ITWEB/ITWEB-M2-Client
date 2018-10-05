@@ -41,7 +41,7 @@
     </tbody>
   </table>
 
-  <div *ngIf="program.Owner.id==id">
+  <div *ngIf="program.Owner.id==owner.id">
     <button (click)="openModal({id: 'custom-modal-1', programId: program._id});">Create Exercise</button>
     <button (click)="removeProgram($event, program._id)">Remove Program!</button>
   </div>
