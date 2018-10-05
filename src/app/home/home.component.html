@@ -1,4 +1,4 @@
-<div *ngIf="id == ''" style="text-align: right">
+<div *ngIf="owner.id == ''" style="text-align: right">
   <button class="loginBtn loginBtn--facebook" (click)="socialSignIn('facebook')">
     Login with Facebook
   </button>
@@ -47,7 +47,7 @@
   </div>
   
 </div>
-<div  *ngIf="id != ''">
+<div  *ngIf="owner.id != ''">
   <h3>Create new program</h3>
   <button (click)="createProgram()">Create Program</button>
 </div>
