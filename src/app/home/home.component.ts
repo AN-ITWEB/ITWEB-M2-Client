@@ -14,15 +14,15 @@ import {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  private modalExerciseText: string;
-  private modalDescriptionText: string;
-  private modalSetText: string;
-  private modalRepsTimeText: string;
+  public modalExerciseText: string;
+  public modalDescriptionText: string;
+  public modalSetText: string;
+  public modalRepsTimeText: string;
   public url: string
   public programs: Program[];
   public displayedColumns: String[] = ['Exercise', 'Description', 'Set', 'RepsTime'];
-  private currentProgramId: string;
-  private owner: Owner;
+  public currentProgramId: string;
+  public owner: Owner;
 
   constructor(private modalService: ModalService, private http: HttpClient, private socialAuthService: AuthService) {
   }
