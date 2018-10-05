@@ -7,6 +7,7 @@ import {
   FacebookLoginProvider,
   GoogleLoginProvider
 } from 'angular5-social-login';
+import { isDevMode } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -28,8 +29,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.url = process.env.NODE_ENV !== "development" ? "https://itweb-m2-api.herokuapp.com/programs" : 'http://localhost:3000/programs';
-    this.url =  'https://itweb-m2-api.herokuapp.com/programs';
+    this.url = isDevMode() ? 'http://localhost:3000/programs' : "https://itweb-m2-api.herokuapp.com/programs";
+    // this.url =  'https://itweb-m2-api.herokuapp.com/programs';
 
     this.http.get<Program[]>(this.url).subscribe(data => {
       console.log(data);
