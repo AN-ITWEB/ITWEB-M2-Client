@@ -28,7 +28,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.url = process.env.NODE_ENV !== "development" ? "https://itweb-m2-api.herokuapp.com/programs" : 'http://localhost:3000/programs';
+    // this.url = process.env.NODE_ENV !== "development" ? "https://itweb-m2-api.herokuapp.com/programs" : 'http://localhost:3000/programs';
+    this.url = 'http://localhost:3000/programs';
 
     this.http.get<Program[]>(this.url).subscribe(data => {
       console.log(data);
