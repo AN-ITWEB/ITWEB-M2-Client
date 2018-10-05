@@ -28,17 +28,18 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.url = 'http://localhost:3000/programs';
-      this.http.get<Program[]>(this.url).subscribe(data => {
-        console.log(data);
-        this.programs = data
-      });
+    this.url = process.env.NODE_ENV !== "development" ? "https://itweb-m2-api.herokuapp.com/programs" : 'http://localhost:3000/programs';
 
-      this.owner = {
-        id: "",
-        Name: "",
-        token: ""
-      };
+    this.http.get<Program[]>(this.url).subscribe(data => {
+      console.log(data);
+      this.programs = data
+    });
+
+    this.owner = {
+      id: "",
+      Name: "",
+      token: ""
+    };
   }
 
   openModal(obj: modalObj) {
