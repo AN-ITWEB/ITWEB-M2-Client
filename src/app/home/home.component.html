@@ -24,11 +24,11 @@
             <td>{{exercise.Description}}</td>
             <td>{{exercise.Set}}</td>
             <td>{{exercise.RepsTime}}</td>
-            <td *ngIf="program.Owner.id==id"> 
+            <td *ngIf="program.Owner.id==owner.id"> 
               <mat-slide-toggle color="primary" [(ngModel)]="programs[i].Exercises[j].Logged" (click)="toggleClicked(program._id, exercise.id, i, j)">
               </mat-slide-toggle>
             </td>
-            <td *ngIf="program.Owner.id!=id"> 
+            <td *ngIf="program.Owner.id!=owner.id"> 
               <mat-slide-toggle color="primary" [(ngModel)]="programs[i].Exercises[j].Logged" (click)="toggleClicked(program._id, exercise.id, i, j)" disabled>
               </mat-slide-toggle>
             </td>
