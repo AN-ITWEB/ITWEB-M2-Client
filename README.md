@@ -21,19 +21,19 @@ The user should be able to create workout programs similar to the one shown bene
 is a collection of exercises (workout) that each have a name, description, number of sets and number of
 repetitions or time.
 #### Basic functionality:
-- [ ] New users can sign up with your web app (register)
+- [x] New users can sign up with your web app (register)
 - [ ] Users can login and logout
-- [ ] Users don’t have to login to see all programs
-- [ ] User must login to create a new workout program
-- [ ] User must login to add new exercises to a workout program
-- [ ] User must login to log workout activity.
-- [ ] The user can create a new workout program
-- [ ] The user can add new exercises to a workout program
-- [ ] An exercise has a name a description, number of sets and number of repetitions or the time it
+- [x] Users don’t have to login to see all programs
+- [x] User must login to create a new workout program
+- [x] User must login to add new exercises to a workout program
+- [x] User must login to log workout activity.
+- [x] The user can create a new workout program
+- [x] The user can add new exercises to a workout program
+- [x] An exercise has a name a description, number of sets and number of repetitions or the time it
 should last.
-- [ ] Workout programs is persisted in a database (MongoDb)
-- [ ] The user can log workout activity
-- [ ] The Web API must be accessible online (e.g. running on Heroku with the database on mLab).
+- [x] Workout programs is persisted in a database (MongoDb)
+- [x] The user can log workout activity
+- [x] The Web API must be accessible online (e.g. running on Heroku with the database on mLab).
 
 
 Workout program example.
