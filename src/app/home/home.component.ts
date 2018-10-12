@@ -6,8 +6,9 @@ import {
   AuthService,
   FacebookLoginProvider,
   GoogleLoginProvider
-} from 'angular5-social-login';
+} from 'angular-6-social-login';
 import { isDevMode } from '@angular/core';
+import { ResourceLoader } from '@angular/compiler';
 
 @Component({
   selector: 'app-home',
@@ -117,6 +118,21 @@ export class HomeComponent implements OnInit {
     );
   }
 
+  public socialSignOut(){
+    this.socialAuthService.signOut().then(
+      (success) => {
+        this.owner = {
+          id: "",
+          Name: "",
+          token: ""
+        };
+        console.log("Signed out " + success);
+      }, (failed) => {
+        console.log("failed signout: " + failed);
+      }
+    );
+  }
+
   private generateHttpHeaders(){
     return {
       headers: new HttpHeaders({
@@ -154,7 +170,7 @@ export class HomeComponent implements OnInit {
 
     var obj = {Owner: this.owner, Exercises: []}
 
-    this.http.post<Program>(this.url + '/',obj, this.generateHttpHeaders()).subscribe(
+    this.http.post<Program>(this.url + '/', obj, this.generateHttpHeaders()).subscribe(
       data => {
         console.log(data);
         this.programs.push(data)},
