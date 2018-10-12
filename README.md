@@ -22,7 +22,7 @@ is a collection of exercises (workout) that each have a name, description, numbe
 repetitions or time.
 #### Basic functionality:
 - [x] New users can sign up with your web app (register)
-- [ ] Users can login and logout
+- [x] Users can login and logout
 - [x] Users don’t have to login to see all programs
 - [x] User must login to create a new workout program
 - [x] User must login to add new exercises to a workout program
