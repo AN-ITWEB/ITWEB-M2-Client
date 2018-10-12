@@ -1,6 +1,13 @@
 # ITWEB-M2-Client
 
 ## Web.Api and SPA
+### Usage:
+Here are the links for the site:
+
+The heroku page can be found here: https://itweb-m2-client.herokuapp.com/
+The API is hosted at: https://itweb-m2-api.herokuapp.com/
+
+The API repository can be found here: https://github.com/AN-ITWEB/ITWEB-M2-API
 ### Purpose:
 To demonstrate fulfilment of the learning objectives:
 - Explain the principles for using a MVC framework in a web server
